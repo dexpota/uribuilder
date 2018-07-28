@@ -4,5 +4,5 @@ setup(
     name='urlbuilder',
     version='0.1',
     packages=['urlbuilder',],
-    long_description=open('README.txt').read(),
+    long_description=open('README.md').read(),
 )
