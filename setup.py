@@ -1,4 +1,5 @@
 from setuptools import setup
+from setuptools import find_packages
 import uribuilder
 
 with open("README.md", "r") as fh:
@@ -7,7 +8,16 @@ with open("README.md", "r") as fh:
 setup(
     name='uribuilder',
     version=uribuilder.__version__,
-    packages=['uribuilder',],
+    author="Fabrizio Destro",
+    author_email="destro.fabrizio@gmail.com",
+    description="Build URI.",
     long_description=long_description,
-    long_description_type="text/markdown"
+    long_description_content_type="text/markdown",
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "Programming Language :: Python :: 3"
+    ],
+    url="https://github.com/dexpota/uribuilder",
+    packages=find_packages(),
 )
