@@ -1,2 +1,3 @@
+.PHONY: test
 test:
-	pytest tests/test_builder.py
+	@tox	
