@@ -1,6 +1,6 @@
 from hypothesis import given
 from hypothesis.strategies import from_regex
-from urlbuilder.builder import UriBuilder
+from uribuilder.builder import UriBuilder
 
 SCHEMA = r"\A[a-zA-Z][a-zA-Z0-9+.-]*\Z"
 UNRESERVED = "[a-zA-Z0-9._~-]"

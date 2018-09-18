@@ -1,8 +1,12 @@
-from distutils.core import setup
+from setuptools import setup
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 setup(
-    name='urlbuilder',
+    name='uribuilder',
     version='0.1',
-    packages=['urlbuilder',],
-    long_description=open('README.md').read(),
+    packages=['uribuilder',],
+    long_description=long_description,
+    long_description_type="text/markdown"
 )
