@@ -1,38 +1,54 @@
-
 # ABNF for URI
-# URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
-# In this notation / means alternatives
+
 # scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
 SCHEME = r"[a-zA-Z][a-zA-Z0-9+.-]*"
 
-# hier-part = "//" authority path-abempty
-#  / path-absolute
-#  / path-rootless
-#  / path-empty
+# port = *DIGIT
+PORT = r"[0-9]*"
 
-# authority = [ userinfo "@" ] host [ ":" port ]
+# unreserved = ALPHA / DIGIT / "-" / "." / "_" / "˜"
+UNRESERVED = r"[a-zA-Z0-9._~-]"
+# pct-encoded = "%" HEXDIG HEXDIG
+PCT_ENCODED = r"%[a-fA-F0-9]{2}"
+# sub-delims = "!" / "$" / "&" / "’" / "(" / ")" / "*" / "+" / "," / ";" / "="
+SUB_DELIMS = r"[!$&'()*+,;=]"
 
 # userinfo = *( unreserved / pct-encoded / sub-delims / ":" )
+# ?: means a non-capturing group
+USERINFO = r"(?:{unreserved}|{pct_encoded}|{sub_delims})*".format(unreserved=UNRESERVED,
+                                                                  pct_encoded=PCT_ENCODED,
+                                                                  sub_delims=SUB_DELIMS)
+# IP-literal = "[" ( IPv6address / IPvFuture ) "]"
+# IPv4address = dec-octet "." dec-octet "." dec-octet "." dec-octet
+
+# reg-name = *( unreserved / pct-encoded / sub-delims )
+REG_NAME = r"(?:{unreserved}|{pct_encoded}|{sub_delims})*".format(unreserved=UNRESERVED,
+                                                                  pct_encoded=PCT_ENCODED,
+                                                                  sub_delims=SUB_DELIMS)
 
 # host = IP-literal / IPv4address / reg-name
-# port = *DIGIT
-PORT = "[0-9]*"
+# TODO do the full version
+HOST = REG_NAME
+
+# authority = [ userinfo "@" ] host [ ":" port ]
+AUTHORITY = r"({userinfo}@)?{host}(:{port})".format(userinfo=USERINFO, host=HOST, port=PORT)
 
 # Definitions
 # ALPHA: Upper- and lower-case ASCII letters (A–Z, a–z)
 # DIGIT: Decimal digits (0–9)
 
-UNRESERVED = "[a-zA-Z0-9._~-]"
-PCT_ENCODED = "%[a-fA-F0-9]{2}"
-SUB_DELIMS = "[!$&'()*+,;=]"
-HOST = r"\A(?:{unreserved}|{pct_encoded}|{sub_delims})*\Z".format(unreserved=UNRESERVED,
-                                                                  pct_encoded=PCT_ENCODED,
-                                                                  sub_delims=SUB_DELIMS)
+# pchar = unreserved / pct-encoded / sub-delims / ":" / "@"
 PCHAR = "(?:{unreserved}|{pct_encoded}|{sub_delims}|[:@])".format(unreserved=UNRESERVED,
                                                                   pct_encoded=PCT_ENCODED,
                                                                   sub_delims=SUB_DELIMS)
+# segment = *pchar
 SEGMENT = "{pchar}*".format(pchar=PCHAR)
+# segment-nz = 1*pchar
 SEGMENT_NZ = "{pchar}+".format(pchar=PCHAR)
+# segment-nz-nc = 1*( unreserved / pct-encoded / sub-delims / "@" )
+SEGMENT_NZ_NC = "{pchar}+".format(pchar=PCHAR)
+
+
 PATH_ABEMPTY = "((?:/{segment})*)".format(segment=SEGMENT)
 PATH_ABSOLUTE = "(/(?:{segment_nz}(?:/{segment})*)?)".format(segment=SEGMENT,
                                                              segment_nz=SEGMENT_NZ)
@@ -40,11 +56,13 @@ PATH_ROOTLESS = "({segment_nz}(?:/{segment})*)".format(segment=SEGMENT,
                                                        segment_nz=SEGMENT_NZ)
 PATH_EMPTY = "()"
 
-HIER_PART = "\A(?:{path_abempty}|{path_absolute}|{path_rootless}|{path_empty})\Z".format(path_abempty=PATH_ABEMPTY,
-                                                                                         path_absolute=PATH_ABSOLUTE,
-                                                                                         path_rootless=PATH_ROOTLESS,
-                                                                                         path_empty=PATH_EMPTY)
+# hier-part = "//" authority path-abempty / path-absolute / path-rootless / path-empty
+HIER_PART = r"//{authority}(?:{path_abempty}|{path_absolute}|{path_rootless}|{path_empty})".format(
+    authority=AUTHORITY, path_abempty=PATH_ABEMPTY, path_absolute=PATH_ABSOLUTE, path_rootless=PATH_ROOTLESS,
+    path_empty=PATH_EMPTY)
 
-FRAGMENT = "\A((?:{pchar}|[/?])*)\Z".format(pchar=PCHAR)
-QUERY = "\A((?:{pchar}|[/?])*)\Z".format(pchar=PCHAR)
+FRAGMENT = r"((?:{pchar}|[/?])*)".format(pchar=PCHAR)
+QUERY = r"((?:{pchar}|[/?])*)".format(pchar=PCHAR)
 
+# URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
+URI = r"{scheme}:{}(\?{query})+(#{fragment})".format(scheme=SCHEME, query=QUERY, fragment=FRAGMENT)
