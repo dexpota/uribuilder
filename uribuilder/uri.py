@@ -31,7 +31,7 @@ REG_NAME = r"(?:{unreserved}|{pct_encoded}|{sub_delims})*".format(unreserved=UNR
 HOST = REG_NAME
 
 # authority = [ userinfo "@" ] host [ ":" port ]
-AUTHORITY = r"({userinfo}@)?{host}(:{port})".format(userinfo=USERINFO, host=HOST, port=PORT)
+AUTHORITY = r"({userinfo}@)?{host}(:{port})?".format(userinfo=USERINFO, host=HOST, port=PORT)
 
 # Definitions
 # ALPHA: Upper- and lower-case ASCII letters (A–Z, a–z)
@@ -65,4 +65,7 @@ FRAGMENT = r"((?:{pchar}|[/?])*)".format(pchar=PCHAR)
 QUERY = r"((?:{pchar}|[/?])*)".format(pchar=PCHAR)
 
 # URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
-URI = r"{scheme}:{}(\?{query})+(#{fragment})".format(scheme=SCHEME, query=QUERY, fragment=FRAGMENT)
+URI = r"{scheme}:{hier_part}(\?{query})+(#{fragment})".format(scheme=SCHEME,
+                                                              hier_part=HIER_PART,
+                                                              query=QUERY,
+                                                              fragment=FRAGMENT)
