@@ -25,7 +25,8 @@ def test_valid_uri():
     assert reg_expression.match("http://foo.com/blah_blah_(wikipedia)")
     assert reg_expression.match("http://foo.com/blah_blah_(wikipedia)_(again)")
     assert reg_expression.match("http://www.example.com/wpstyle/?p=364")
-    assert reg_expression.match("https://www.example.com/foo/?bar=baz&inga=42&quux")
+    assert reg_expression.match(
+        "https://www.example.com/foo/?bar=baz&inga=42&quux")
     assert reg_expression.match("http://✪df.ws/123")
     assert reg_expression.match("http://userid:password@example.com:8080")
     assert reg_expression.match("http://userid:password@example.com:8080/")
@@ -45,14 +46,16 @@ def test_valid_uri():
     assert reg_expression.match("http://foo.com/unicode_(✪)_in_parens")
     assert reg_expression.match("http://foo.com/(something)?after=parens")
     assert reg_expression.match("http://☺.damowmow.com/")
-    assert reg_expression.match("http://code.google.com/events/#&product=browser")
+    assert reg_expression.match(
+        "http://code.google.com/events/#&product=browser")
     assert reg_expression.match("http://j.mp")
     assert reg_expression.match("ftp://foo.bar/baz")
     assert reg_expression.match("http://foo.bar/?q=Test%20URL-encoded%20stuff")
     assert reg_expression.match("http://مثال.إختبار")
     assert reg_expression.match("http://例子.测试")
     assert reg_expression.match("http://उदाहरण.परीक्षा")
-    assert reg_expression.match("http://-.~_!$&'()*+,;=:%40:80%2f::::::@example.com")
+    assert reg_expression.match(
+        "http://-.~_!$&'()*+,;=:%40:80%2f::::::@example.com")
     assert reg_expression.match("http://1337.net")
     assert reg_expression.match("http://a.b-c.de")
     assert reg_expression.match("http://223.255.255.254")

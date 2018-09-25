@@ -40,9 +40,11 @@ class UriBuilder:
         self.parameters = []
 
     def build(self):
-        Uri = namedtuple("Uri", ['scheme', 'netloc', 'path', 'params', 'query', 'fragment'])
+        Uri = namedtuple("Uri", ['scheme', 'netloc',
+                                 'path', 'params', 'query', 'fragment'])
         q = parse.urlencode(self.parameters)
-        u = Uri(scheme=self._scheme, netloc=self._netloc, path=self._path, params=self._params, query=q, fragment=self._fragment)
+        u = Uri(scheme=self._scheme, netloc=self._netloc, path=self._path,
+                params=self._params, query=q, fragment=self._fragment)
         return urllib.parse.urlunparse(u)
 
     def parse(self):
