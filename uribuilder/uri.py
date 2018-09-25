@@ -38,23 +38,23 @@ AUTHORITY = r"({userinfo}@)?{host}(:{port})?".format(userinfo=USERINFO, host=HOS
 # DIGIT: Decimal digits (0–9)
 
 # pchar = unreserved / pct-encoded / sub-delims / ":" / "@"
-PCHAR = "(?:{unreserved}|{pct_encoded}|{sub_delims}|[:@])".format(unreserved=UNRESERVED,
+PCHAR = r"(?:{unreserved}|{pct_encoded}|{sub_delims}|[:@])".format(unreserved=UNRESERVED,
                                                                   pct_encoded=PCT_ENCODED,
                                                                   sub_delims=SUB_DELIMS)
 # segment = *pchar
-SEGMENT = "{pchar}*".format(pchar=PCHAR)
+SEGMENT = r"{pchar}*".format(pchar=PCHAR)
 # segment-nz = 1*pchar
-SEGMENT_NZ = "{pchar}+".format(pchar=PCHAR)
+SEGMENT_NZ = r"{pchar}+".format(pchar=PCHAR)
 # segment-nz-nc = 1*( unreserved / pct-encoded / sub-delims / "@" )
-SEGMENT_NZ_NC = "{pchar}+".format(pchar=PCHAR)
+SEGMENT_NZ_NC = r"{pchar}+".format(pchar=PCHAR)
 
 
-PATH_ABEMPTY = "((?:/{segment})*)".format(segment=SEGMENT)
-PATH_ABSOLUTE = "(/(?:{segment_nz}(?:/{segment})*)?)".format(segment=SEGMENT,
+PATH_ABEMPTY = r"((?:/{segment})*)".format(segment=SEGMENT)
+PATH_ABSOLUTE = r"(/(?:{segment_nz}(?:/{segment})*)?)".format(segment=SEGMENT,
                                                              segment_nz=SEGMENT_NZ)
-PATH_ROOTLESS = "({segment_nz}(?:/{segment})*)".format(segment=SEGMENT,
+PATH_ROOTLESS = r"({segment_nz}(?:/{segment})*)".format(segment=SEGMENT,
                                                        segment_nz=SEGMENT_NZ)
-PATH_EMPTY = "()"
+PATH_EMPTY = r"()"
 
 # hier-part = "//" authority path-abempty / path-absolute / path-rootless / path-empty
 HIER_PART = r"//{authority}(?:{path_abempty}|{path_absolute}|{path_rootless}|{path_empty})".format(
@@ -65,7 +65,7 @@ FRAGMENT = r"((?:{pchar}|[/?])*)".format(pchar=PCHAR)
 QUERY = r"((?:{pchar}|[/?])*)".format(pchar=PCHAR)
 
 # URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
-URI = r"{scheme}:{hier_part}(\?{query})+(#{fragment})".format(scheme=SCHEME,
+URI = r"{scheme}:{hier_part}(\?{query})?(#{fragment})?".format(scheme=SCHEME,
                                                               hier_part=HIER_PART,
                                                               query=QUERY,
                                                               fragment=FRAGMENT)
