@@ -1,1 +1,1 @@
-from .regular_expression import *
+from .regex import *
