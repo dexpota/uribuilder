@@ -1,0 +1,2 @@
+class UriBuildingException(Exception):
+    pass

@@ -1,11 +1,14 @@
+from .uri import SCHEME, FRAGMENT, QUERY
+from .exceptions import UriBuildingException
 from collections import namedtuple
 from urllib import parse
 import urllib
 
 
 class UriBuilder:
-
-    def schema(self, value):
+    def scheme(self, value):
+        if SCHEME.match(value) is None:
+            raise UriBuildingException()
         self._scheme = value
         return self
 
@@ -18,6 +21,8 @@ class UriBuilder:
         return self
 
     def fragment(self, value):
+        if FRAGMENT.match(value) is None:
+            raise UriBuildingException()
         self._fragment = value
         return self
 
