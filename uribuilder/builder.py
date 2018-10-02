@@ -45,8 +45,11 @@ class UriBuilder:
         self.parameters = []
 
     def build(self):
+        # TODO Check if we got all parameters
+
         Uri = namedtuple("Uri", ['scheme', 'netloc',
                                  'path', 'params', 'query', 'fragment'])
+        # Parse parameters and produce a query string
         q = parse.urlencode(self.parameters)
         u = Uri(scheme=self._scheme, netloc=self._netloc, path=self._path,
                 params=self._params, query=q, fragment=self._fragment)
