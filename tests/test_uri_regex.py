@@ -1,5 +1,4 @@
 from uribuilder.uri import HIER_PART, URI, SCHEME, QUERY
-import re
 
 
 def test_scheme():

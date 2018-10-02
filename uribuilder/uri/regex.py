@@ -1,4 +1,5 @@
 import re
+
 # ABNF for URI
 
 # scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
@@ -23,16 +24,16 @@ SUB_DELIMS = re.compile(_SUB_DELIMS)
 # userinfo = *( unreserved / pct-encoded / sub-delims / ":" )
 # ?: means a non-capturing group
 _USERINFO = r"(?:{unreserved}|{pct_encoded}|{sub_delims})*".format(unreserved=_UNRESERVED,
-                                                                  pct_encoded=_PCT_ENCODED,
-                                                                  sub_delims=_SUB_DELIMS)
+                                                                   pct_encoded=_PCT_ENCODED,
+                                                                   sub_delims=_SUB_DELIMS)
 USERINFO = re.compile(_USERINFO)
 # IP-literal = "[" ( IPv6address / IPvFuture ) "]"
 # IPv4address = dec-octet "." dec-octet "." dec-octet "." dec-octet
 
 # reg-name = *( unreserved / pct-encoded / sub-delims )
 _REG_NAME = r"(?:{unreserved}|{pct_encoded}|{sub_delims})*".format(unreserved=_UNRESERVED,
-                                                                  pct_encoded=_PCT_ENCODED,
-                                                                  sub_delims=_SUB_DELIMS)
+                                                                   pct_encoded=_PCT_ENCODED,
+                                                                   sub_delims=_SUB_DELIMS)
 REG_NAME = re.compile(_REG_NAME)
 # host = IP-literal / IPv4address / reg-name
 # TODO do the full version
@@ -49,8 +50,8 @@ AUTHORITY = re.compile(_AUTHORITY)
 
 # pchar = unreserved / pct-encoded / sub-delims / ":" / "@"
 _PCHAR = r"(?:{unreserved}|{pct_encoded}|{sub_delims}|[:@])".format(unreserved=_UNRESERVED,
-                                                                   pct_encoded=_PCT_ENCODED,
-                                                                   sub_delims=_SUB_DELIMS)
+                                                                    pct_encoded=_PCT_ENCODED,
+                                                                    sub_delims=_SUB_DELIMS)
 PCHAR = re.compile(_PCHAR)
 # segment = *pchar
 _SEGMENT = r"{pchar}*".format(pchar=_PCHAR)
@@ -65,10 +66,10 @@ SEGMENT_NZ_NC = re.compile(_SEGMENT_NZ_NC)
 _PATH_ABEMPTY = r"((?:/{segment})*)".format(segment=_SEGMENT)
 PATH_ABEMPTY = re.compile(_PATH_ABEMPTY)
 _PATH_ABSOLUTE = r"(/(?:{segment_nz}(?:/{segment})*)?)".format(segment=_SEGMENT,
-                                                              segment_nz=_SEGMENT_NZ)
+                                                               segment_nz=_SEGMENT_NZ)
 PATH_ABSOLUTE = re.compile(_PATH_ABSOLUTE)
 _PATH_ROOTLESS = r"({segment_nz}(?:/{segment})*)".format(segment=_SEGMENT,
-                                                        segment_nz=_SEGMENT_NZ)
+                                                         segment_nz=_SEGMENT_NZ)
 PATH_ROOTLESS = re.compile(_PATH_ROOTLESS)
 _PATH_EMPTY = r"()"
 PATH_EMPTY = re.compile(_PATH_EMPTY)
@@ -85,7 +86,7 @@ QUERY = re.compile(_QUERY)
 
 # URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
 _URI = r"{scheme}:{hier_part}(\?{query})?(#{fragment})?".format(scheme=_SCHEME,
-                                                               hier_part=_HIER_PART,
-                                                               query=_QUERY,
-                                                               fragment=_FRAGMENT)
+                                                                hier_part=_HIER_PART,
+                                                                query=_QUERY,
+                                                                fragment=_FRAGMENT)
 URI = re.compile(_URI)

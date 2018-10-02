@@ -43,6 +43,10 @@ clean: clean-tox clean-build clean-pyc ## Remove all file artifacts
 test:
 	@tox	
 
+.PHONY: coala
+coala: ## Run coala
+	@coala --files "*/*.py"
+
 requirements-dev.txt: Pipfile.lock ## Generate requirements file for developing from Pipenv.
 	@echo "+ $@"
 	@pipenv lock --requirements --dev > requirements-dev.txt
