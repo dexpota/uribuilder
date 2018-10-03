@@ -12,8 +12,12 @@ class UriBuilder:
         self._scheme = value
         return self
 
-    def netloc(self, value):
-        self._netloc = value
+    def host(self, value):
+        self._host = value
+        return self
+
+    def port(self, value):
+        self._port = value
         return self
 
     def path(self, value):
@@ -36,10 +40,12 @@ class UriBuilder:
 
     def __init__(self):
         self._scheme = ""
-        self._netloc = ""
+        self._host = ""
+        self._port = ""
         self._path = ""
         self._params = ""
-        self._query = ""
+        self._userinfo = None
+        self._query = None
         self._fragment = ""
 
         self.parameters = []
@@ -51,9 +57,26 @@ class UriBuilder:
                                  'path', 'params', 'query', 'fragment'])
         # Parse parameters and produce a query string
         q = parse.urlencode(self.parameters)
-        u = Uri(scheme=self._scheme, netloc=self._netloc, path=self._path,
+
+        _netloc = self._build_netloc(self._userinfo, self._host, self._port)
+
+        u = Uri(scheme=self._scheme, netloc=_netloc, path=self._path,
                 params=self._params, query=q, fragment=self._fragment)
         return urllib.parse.urlunparse(u)
 
     def parse(self):
         raise NotImplementedError()
+
+    @staticmethod
+    def _build_netloc(userinfo, host, port):
+        netloc = []
+
+        if userinfo is not None:
+            netloc.append("{userinfo}@".format(userinfo=userinfo))
+
+        netloc.append(host)
+
+        if port is not None:
+            netloc.append(":{port}".format(port=port))
+
+        return "".join(netloc)

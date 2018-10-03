@@ -33,6 +33,5 @@ QUERY = "\A((?:{pchar}|[/?])*)\Z".format(pchar=PCHAR)
 
 @given(from_regex(SCHEMA), from_regex(HOST), from_regex(HIER_PART), from_regex(QUERY), from_regex(FRAGMENT))
 def test_some_stuff(schema, host, path, query, fragment):
-    uri = UriBuilder().scheme(schema).netloc(
-        host).path(path).fragment(fragment).build()
+    uri = UriBuilder().scheme(schema).host(host).path(path).fragment(fragment).build()
     print(uri)

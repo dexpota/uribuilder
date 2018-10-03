@@ -15,6 +15,7 @@ def test_hier_part_regex():
 
 
 def test_valid_uri():
+    assert URI.match("http://foo.com:/blah_blah")  # Test without port, only :
     assert URI.match("http://foo.com/blah_blah")
     assert URI.match("http://foo.com/blah_blah/")
     assert URI.match("http://foo.com/blah_blah_(wikipedia)")
@@ -52,3 +53,4 @@ def test_valid_uri():
     assert URI.match("http://a.b-c.de")
     assert URI.match("http://223.255.255.254")
     assert URI.match("https://foo_bar.example.com/")
+
